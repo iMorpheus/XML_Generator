@@ -9,9 +9,8 @@ This was written using all the knowledge I have of programming.
 For the record, I stole this bit from the internet:
 
 Math
-EstDur=$(echo "($DUR+0.5)/1" | bc);
 
-hours=$(echo "($EstDur/3600)" | bc);
+EstDur=$(echo "($DUR+0.5)/1" | bc);hours=$(echo "($EstDur/3600)" | bc);
 
 minutes=$(echo "(($EstDur/60)%60)" | bc);
 
