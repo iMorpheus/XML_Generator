@@ -5,13 +5,9 @@ I am a language instructor here in Tokyo.  I have managed to incorporate my love
 
 This was written using all the knowledge I have of programming.
 
-
+## Math
 For the record, I stole this bit from the internet:
-
-Math
-
-EstDur=$(echo "($DUR+0.5)/1" | bc);hours=$(echo "($EstDur/3600)" | bc);
-
-minutes=$(echo "(($EstDur/60)%60)" | bc);
-
-seconds=$(echo "($EstDur%60)" | bc);
+- EstDur=$(echo "($DUR+0.5)/1" | bc);
+- hours=$(echo "($EstDur/3600)" | bc);
+- minutes=$(echo "(($EstDur/60)%60)" | bc);
+- seconds=$(echo "($EstDur%60)" | bc);
