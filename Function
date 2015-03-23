@@ -1,2 +1,3 @@
 ### In-Place-Editing
 - Insert output from $XML into *.xml via either ex or ed.
+- Report completion.
