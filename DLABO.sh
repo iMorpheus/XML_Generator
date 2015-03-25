@@ -18,7 +18,7 @@ BYTES=$(afinfo $M4A | grep "audio bytes" | grep -Eo '[0-9]{1,15}');
 open -R $M4A;
 
 
-DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,10}');
+DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,11}');
 
 # file type audio/mp4a-latm auto added at generation.
 echo "Media file link: ";
@@ -27,7 +27,7 @@ MFL=$(echo $TEMPMFL | grep https | sed s/https/http/ | grep www | sed s/www/dl/ 
 
 # Episode Information:
 echo '~~~~~~~~~~~~~~~~~~~Episode Information~~~~~~~~~~~~~~';
-EPSNO=$( echo $TEMPMFL | grep -Eo '[0-9][0-9][0-9]');
+EPSNO=$(afinfo $M4A | grep "File:" | grep -Eo '[0-9][0-9][0-9]');
 echo "Episode name: ";
 read -e EPSNM;
 echo "Episode subtitle: ";
