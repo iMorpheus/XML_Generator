@@ -23,7 +23,7 @@ DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,11}');
 # file type audio/mp4a-latm auto added at generation.
 echo "Media file link: ";
 read -e TEMPMFL;
-MFL=$(echo $TEMPMFL | grep https | sed s/https/http/ | grep www | sed s/www/dl/ | grep dropbox | sed s/dropbox/dropboxusercontent/ | grep '?dl=0' | sed s/?dl=0/?dl=1/);
+MFL=$(echo "$TEMPMFL" | sed s/https.*com// | sed s/?.*//);
 
 # Episode Information:
 echo '~~~~~~~~~~~~~~~~~~~Episode Information~~~~~~~~~~~~~~';
@@ -59,21 +59,21 @@ DRTN=$(printf "%02d:%02d:%02d\n" $hours $minutes $seconds);
 
 # ------------------ XML GENERATOR PROPER -------------------
 XML=$(
-echo  '<item>';
-echo  '\r<title>'$EPSNO':' $EPSNM'</title>';
-echo '\r<itunes:subtitle>'$EPSSBT'</itunes:subtitle>';
-echo  '\r<itunes:author>'$AUTHR'</itunes:author>';
-echo '\r<itunes:summary>'$EPSSUM'</itunes:summary>';
-echo '\r<enclosure url="'$MFL'" length="'$BYTES'" type="audio/mp4a-latm" />';
-echo '\r<guid>'$MFL'</guid>';
-
-echo '\r<itunes:duration>'$DRTN'</itunes:duration>';
-echo  '\r<pubDate>'$DOW', '$CDATE' '$MNTH' '$PYR' '$TME '+0900</pubDate>';
-echo  '\r<itunes:keywords>'$KYWRDS'</itunes:keywords>';
-echo  '\r<itunes:explicit>'$XPLCT'</itunes:explicit>';
-echo  '\r</item>';
+printf "<item>\n";
+printf "<title>%b: %b</title>\n" "$EPSNO" "$EPSNM";
+printf "<itunes:subtitle>%b</itunes:subtitle>\n" "$EPSSBT";
+printf "<itunes:author>%b</itunes:author>\n" "$AUTHR";
+printf "<itunes:summary>%b</itunes:summary>\n" "$EPSSUM";
+printf "<enclosure url=\"http://dl.dropboxusercontent.com%b?dl=1\" length=\"%b\" type=\"audio/mp4a-latm\" />\n" "$MFL" "$BYTES";
+printf "<guid>http://dl.dropboxusercontent.com%b?dl=1</guid>\n" "$MFL";
+printf "<itunes:duration>%b</itunes:duration>\n" "$DRTN";
+printf "<pubDate>%b, %b %b %b %b +0900</pubDate>\n" "$DOW" "$CDATE" "$MNTH" "$PYR" "$TME";
+printf "<itunes:keywords>%b</itunes:keywords>\n" "$KYRDS";
+printf "<itunes:explicit>%b</itunes:explicit>\n" "$XPLCT";
+printf "</item>\n";
 );
-echo $XML > xml.txt;
+
+echo "$XML" > xml.txt;
 clear;
 more xml.txt | pbcopy;
 }
