@@ -68,7 +68,7 @@ printf "<enclosure url=\"http://dl.dropboxusercontent.com%b?dl=1\" length=\"%b\"
 printf "<guid>http://dl.dropboxusercontent.com%b?dl=1</guid>\n" "$MFL";
 printf "<itunes:duration>%b</itunes:duration>\n" "$DRTN";
 printf "<pubDate>%b, %b %b %b %b +0900</pubDate>\n" "$DOW" "$CDATE" "$MNTH" "$PYR" "$TME";
-printf "<itunes:keywords>%b</itunes:keywords>\n" "$KYRDS";
+printf "<itunes:keywords>%b</itunes:keywords>\n" "$KYWRDS";
 printf "<itunes:explicit>%b</itunes:explicit>\n" "$XPLCT";
 printf "</item>\n";
 );
