@@ -58,23 +58,20 @@ DRTN=$(printf "%02d:%02d:%02d\n" $hours $minutes $seconds);
 
 
 # ------------------ XML GENERATOR PROPER -------------------
-XML=$(
-printf "<item>\n";
-printf "<title>%b: %b</title>\n" "$EPSNO" "$EPSNM";
-printf "<itunes:subtitle>%b</itunes:subtitle>\n" "$EPSSBT";
-printf "<itunes:author>%b</itunes:author>\n" "$AUTHR";
-printf "<itunes:summary>%b</itunes:summary>\n" "$EPSSUM";
-printf "<enclosure url=\"http://dl.dropboxusercontent.com%b?dl=1\" length=\"%b\" type=\"audio/mp4a-latm\" />\n" "$MFL" "$BYTES";
-printf "<guid>http://dl.dropboxusercontent.com%b?dl=1</guid>\n" "$MFL";
-printf "<itunes:duration>%b</itunes:duration>\n" "$DRTN";
-printf "<pubDate>%b, %b %b %b %b +0900</pubDate>\n" "$DOW" "$CDATE" "$MNTH" "$PYR" "$TME";
-printf "<itunes:keywords>%b</itunes:keywords>\n" "$KYWRDS";
-printf "<itunes:explicit>%b</itunes:explicit>\n" "$XPLCT";
-printf "</item>\n";
-);
-
-echo "$XML" > xml.txt;
-clear;
+cat << EOF > xml.txt
+<item>
+  <title>${EPSNO}: ${EPSNM}</title>
+  <itunes:subtitle>${EPSSBT}</itunes:subtitle>
+  <itunes:author>${AUTHR}</itunes:author>
+  <itunes:summary>${EPSSUM}</itunes:summary>
+  <enclosure url="http://dl.dropboxusercontent.com${MFL}?dl=1" length="${BYTES}" type="audio/mpeg" />
+  <guid>http://dl.dropboxusercontent.com${MFL}?dl=1</guid>
+  <itunes:duration>${DRTN}</itunes:duration>
+  <pubDate>${DOW} ${CDATE} ${MNTH} ${PYR} ${TME} +0900</pubDate>
+  <itunes:keywords>${KYWRDS}</itunes:keywords>
+  <itunes:explicit>${XPLCT}</itunes:explicit>
+</item>
+EOF
 more xml.txt | pbcopy;
 
 echo "$XML";
