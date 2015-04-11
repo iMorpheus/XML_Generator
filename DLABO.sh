@@ -76,6 +76,12 @@ printf "</item>\n";
 echo "$XML" > xml.txt;
 clear;
 more xml.txt | pbcopy;
+
+echo "$XML";
+# echo "%s/<\/channel>/$XML/
+# w
+# q
+# " | ex "$F_XML";
 }
 
 DLABO
