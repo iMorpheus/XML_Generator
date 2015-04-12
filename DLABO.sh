@@ -88,7 +88,7 @@ cat << EOF >> "$RSS"
   <itunes:explicit>${XPLCT}</itunes:explicit>
 </item>
 EOF
-more xml.txt | pbcopy;
+
 }
 
 DLABO
