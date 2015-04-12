@@ -87,6 +87,10 @@ cat << EOF >> "$RSS"
   <itunes:keywords>${KYWRDS}</itunes:keywords>
   <itunes:explicit>${XPLCT}</itunes:explicit>
 </item>
+
+</channel>
+</rss>
+
 EOF
 
 }
