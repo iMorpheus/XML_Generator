@@ -67,7 +67,7 @@ cat << EOF > xml.txt
   <enclosure url="http://dl.dropboxusercontent.com${MFL}?dl=1" length="${BYTES}" type="audio/mpeg" />
   <guid>http://dl.dropboxusercontent.com${MFL}?dl=1</guid>
   <itunes:duration>${DRTN}</itunes:duration>
-  <pubDate>${DOW} ${CDATE} ${MNTH} ${PYR} ${TME} +0900</pubDate>
+  <pubDate>${DOW}, ${CDATE} ${MNTH} ${PYR} ${TME} +0900</pubDate>
   <itunes:keywords>${KYWRDS}</itunes:keywords>
   <itunes:explicit>${XPLCT}</itunes:explicit>
 </item>
