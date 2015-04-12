@@ -64,15 +64,12 @@ DRTN=$(printf "%02d:%02d:%02d\n" $hours $minutes $seconds);
 
 
 # ------------------ XML GENERATOR PROPER -------------------
-echo "%s/<\/channel>//g
+ex "$RSS" <<EOF
+/<\/channel>/d
+/<\/rss>/d
 w
 q
-" | ex "$RSS";
-
-echo "%s/<\/rss>//g
-w
-q
-" | ex "$RSS";
+EOF
 
 cat << EOF >> "$RSS"
 <item>
