@@ -42,6 +42,12 @@ read -e XPLCT;
 echo '~~~~~~~~~~~~~~~~~Keywords~~~~~~~~~~~~~~';
 echo "Add keywords: ";
 read -e KYWRDS;
+
+echo "~~~~~~~~~~~~~~~~~~~~RSS FEED~~~~~~~~~~~~~~~";
+ls .;
+echo "XML File to Edit: ";
+read -e RSS;
+
 # ----------------- END DATA COLLECTION -------------------
 # Output Tester: Date, Time and File Info
 # echo $DOW, $CDATE, $MNTH, $TME, $RNGTM, $BYTES;
@@ -58,7 +64,17 @@ DRTN=$(printf "%02d:%02d:%02d\n" $hours $minutes $seconds);
 
 
 # ------------------ XML GENERATOR PROPER -------------------
-cat << EOF > xml.txt
+echo "%s/<\/channel>//g
+w
+q
+" | ex "$RSS";
+
+echo "%s/<\/rss>//g
+w
+q
+" | ex "$RSS";
+
+cat << EOF >> "$RSS"
 <item>
   <title>${EPSNO}: ${EPSNM}</title>
   <itunes:subtitle>${EPSSBT}</itunes:subtitle>
@@ -73,12 +89,6 @@ cat << EOF > xml.txt
 </item>
 EOF
 more xml.txt | pbcopy;
-
-echo "$XML";
-# echo "%s/<\/channel>/$XML/
-# w
-# q
-# " | ex "$F_XML";
 }
 
 DLABO
