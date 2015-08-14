@@ -87,7 +87,6 @@ cat << EOF >> "$RSS"
 
 </channel>
 </rss>
-
 EOF
 
 }
