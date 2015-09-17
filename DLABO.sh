@@ -69,6 +69,7 @@ ex "$RSS" <<EOF
 /<\/rss>/d
 w
 q
+
 EOF
 
 cat << EOF >> "$RSS"
@@ -87,6 +88,7 @@ cat << EOF >> "$RSS"
 
 </channel>
 </rss>
+
 EOF
 
 }
