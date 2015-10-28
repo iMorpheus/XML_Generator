@@ -78,8 +78,8 @@ cat << EOF >> "$RSS"
   <itunes:subtitle>${EPSSBT}</itunes:subtitle>
   <itunes:author>${AUTHR}</itunes:author>
   <itunes:summary>${EPSSUM}</itunes:summary>
-  <enclosure url="http://dl.dropboxusercontent.com${MFL}?dl=1" length="${BYTES}" type="audio/mp4a-latm" />
-  <guid>http://dl.dropboxusercontent.com${MFL}?dl=1</guid>
+  <enclosure url="http://www.dropbox.com${MFL}?dl=1" length="${BYTES}" type="audio/mp4a-latm" />
+  <guid>http://www.dropbox.com${MFL}?dl=1</guid>
   <itunes:duration>${DRTN}</itunes:duration>
   <pubDate>${DOW}, ${CDATE} ${MNTH} ${PYR} ${TME} +0900</pubDate>
   <itunes:keywords>${KYWRDS}</itunes:keywords>
