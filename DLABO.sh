@@ -1,6 +1,44 @@
 #!/bin/sh
+ set -euo pipefail
+ IFS=$'\n\t'
+
+source ~/bin/_DLABO/CONFIG.INI
+
 function DLABO()
 {
+
+# File Info
+echo '~~~~~~~~~~~~~~~~~~~Audio File Data~~~~~~~~~~~~~~';
+
+ls *.m*;
+read -p "Length in bytes for file: " -e TM4A ;
+M4A=$(echo $TM4A | tr -d "[:space:]");
+
+BYTES=$(afinfo $M4A | grep "audio bytes" | grep -Eo '[0-9]{1,15}');
+open -R $M4A ;
+DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,10}');
+
+# file type audio/mp4a-latm auto added at generation.;
+read -p "Media file link: " -e TEMPMFL ;
+MFL=$(echo "$TEMPMFL" | sed s/https.*com// | sed s/?.*//);
+
+# Episode Information:
+echo '~~~~~~~~~~~~~~~~~~~Episode Information~~~~~~~~~~~~~~';
+EPSNO=$(afinfo $M4A | grep "File:" | grep -Eo '[0-9][0-9][0-9]');
+
+read -p "Episode name: " -e EPSNM;
+read -p "Episode subtitle: " -e EPSSBT;
+read -p "Episode Summary: " -e EPSSUM;
+
+PS3="Explicit tag. Select from Yes(Explict), No(Not explict) or Clean: "
+select XPLCT in Clean Yes No
+do
+  echo $XPLCT
+break
+done
+
+# Keywords
+read -p "Add keywords: " -e KYWRDS;
 
 # echo '~~~~~~~~~~~~~~~~~~~Date and Time~~~~~~~~~~~~~~';
 DOW=$(date +"%a");
@@ -9,62 +47,22 @@ MNTH=$(date +"%b");
 PYR=$(date +"%Y");
 TME=$(date +"%H:%M:%S");
 
-# File Info
-echo '~~~~~~~~~~~~~~~~~~~Audio File Data~~~~~~~~~~~~~~';
-echo "Length in bytes for file: "
-ls *.m4a;
-read -e M4A;
-BYTES=$(afinfo $M4A | grep "audio bytes" | grep -Eo '[0-9]{1,15}');
-open -R $M4A;
-
-
-DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,11}');
-
-# file type audio/mp4a-latm auto added at generation.
-echo "Media file link: ";
-read -e TEMPMFL;
-MFL=$(echo "$TEMPMFL" | sed s/https.*com// | sed s/?.*//);
-
-# Episode Information:
-echo '~~~~~~~~~~~~~~~~~~~Episode Information~~~~~~~~~~~~~~';
-EPSNO=$(afinfo $M4A | grep "File:" | grep -Eo '[0-9][0-9][0-9]');
-echo "Episode name: ";
-read -e EPSNM;
-echo "Episode subtitle: ";
-read -e EPSSBT;
-AUTHR=$(echo "D.L.A.");
-echo "Episode Summary: ";
-read -e EPSSUM;
-echo "Explicit tag. Select from Yes(Explict), No(Not explict) or Clean: ";
-read -e XPLCT;
-
-# Keywords
-echo '~~~~~~~~~~~~~~~~~Keywords~~~~~~~~~~~~~~';
-echo "Add keywords: ";
-read -e KYWRDS;
 
 echo "~~~~~~~~~~~~~~~~~~~~RSS FEED~~~~~~~~~~~~~~~";
-ls .;
-echo "XML File to Edit: ";
-read -e RSS;
 
 # ----------------- END DATA COLLECTION -------------------
-# Output Tester: Date, Time and File Info
-# echo $DOW, $CDATE, $MNTH, $TME, $RNGTM, $BYTES;
-# Output Tester: Episode Info
-# echo $EPSNO, $EPSNM, $EPSSBT, $AUTHR, $EPSSUM, $XPLCT;
 
 # Math
 EstDur=$(echo "($DUR+0.5)/1" | bc);
+
 hours=$(echo "($EstDur/3600)" | bc);
 minutes=$(echo "(($EstDur/60)%60)" | bc);
 seconds=$(echo "($EstDur%60)" | bc);
 # echo "00:$minutes:$seconds";
 DRTN=$(printf "%02d:%02d:%02d\n" $hours $minutes $seconds);
 
-
 # ------------------ XML GENERATOR PROPER -------------------
-ex "$RSS" <<EOF
+ex "$RSS" << EOF
 /<\/channel>/d
 /<\/rss>/d
 w
@@ -78,11 +76,11 @@ cat << EOF >> "$RSS"
   <itunes:subtitle>${EPSSBT}</itunes:subtitle>
   <itunes:author>${AUTHR}</itunes:author>
   <itunes:summary>${EPSSUM}</itunes:summary>
-  <enclosure url="http://www.dropbox.com${MFL}?dl=1" length="${BYTES}" type="audio/mp4a-latm" />
-  <guid>http://www.dropbox.com${MFL}?dl=1</guid>
+  <enclosure url="https://dl.dropbox.com${MFL}?dl=1" length="${BYTES}" type="audio/x-m4a" />
+  <guid>https://dl.dropbox.com${MFL}?dl=1</guid>
   <itunes:duration>${DRTN}</itunes:duration>
   <pubDate>${DOW}, ${CDATE} ${MNTH} ${PYR} ${TME} +0900</pubDate>
-  <itunes:keywords>${KYWRDS}</itunes:keywords>
+  <itunes:keywords>English, ${KYWRDS}</itunes:keywords>
   <itunes:explicit>${XPLCT}</itunes:explicit>
 </item>
 
@@ -91,6 +89,7 @@ cat << EOF >> "$RSS"
 
 EOF
 
+clear;
 }
 
-DLABO
+trap DLABO EXIT
