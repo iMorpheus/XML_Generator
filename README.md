@@ -44,3 +44,16 @@ Thanks to mcstafford and McDutchie over on Reddit, in-place editing is a thing.
     EOF
     
 [Reddit thread](http://www.reddit.com/r/bash/comments/326n0c/refactoringdebugginghalp_command_line_xml/)
+
+ ## Dropbox Automation
+ Mr. Ward heard my keening/wailing and took pity on me: he dove into the Dropbox API then pointed me in the right direction.
+ 
+     (curl -X POST https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings \
+       --header 'Authorization: Bearer ' \
+       --header 'Content-Type: application/json' \
+       --data '{"path":"/~'$Names'/'$M4A'"}' > /dev/null);
+
+     TEMPMFL=$(curl -X POST https://api.dropboxapi.com/2/sharing/get_shared_links \
+      --header 'Authorization: Bearer ' \
+      --header 'Content-Type: application/json' \
+      --data '{"path":"/~'$Names'/'$M4A'"}' | jq -r .links[].url);
