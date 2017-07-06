@@ -20,12 +20,15 @@ DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,10}');
 #### DROPBOX BIT THAT HAS ELUDED ME FOR MONTHS.
 #### AUTOMATION IS HERE!
 
+## Prior to grabbing the shared link, I'm going to call create_shared_link_with_settings to be safe.
 (curl -X POST https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings \
   --header 'Authorization: Bearer ' \
   --header 'Content-Type: application/json' \
   --data '{"path":"/~'$Names'/'$M4A'"}' > /dev/null);
 
-## Prior to grabbing the shared link, I'm going to create_shared_link_with_settings to be safe.
+
+## Grabbing actual shared link
+## If this fails I have no way of knowing. Sigh. More to do.
 
 TEMPMFL=$(curl -X POST https://api.dropboxapi.com/2/sharing/get_shared_links \
   --header 'Authorization: Bearer ' \
