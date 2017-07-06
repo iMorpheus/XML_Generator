@@ -25,7 +25,7 @@ DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,10}');
   --header 'Content-Type: application/json' \
   --data '{"path":"/~'$Names'/'$M4A'"}' > /dev/null);
 
-## Prior to grabbing the shared link, I'm going create_shared_link_with_settings to be safe.
+## Prior to grabbing the shared link, I'm going to create_shared_link_with_settings to be safe.
 
 TEMPMFL=$(curl -X POST https://api.dropboxapi.com/2/sharing/get_shared_links \
   --header 'Authorization: Bearer ' \
