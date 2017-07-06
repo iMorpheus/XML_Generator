@@ -15,11 +15,24 @@ read -p "Length in bytes for file: " -e TM4A ;
 M4A=$(echo $TM4A | tr -d "[:space:]");
 
 BYTES=$(afinfo $M4A | grep "audio bytes" | grep -Eo '[0-9]{1,15}');
-open -R $M4A ;
 DUR=$(afinfo $M4A | grep "estimated duration" | grep -Eo '[0-9].{1,10}');
 
-# file type audio/mp4a-latm auto added at generation.;
-read -p "Media file link: " -e TEMPMFL ;
+#### DROPBOX BIT THAT HAS ELUDED ME FOR MONTHS.
+#### AUTOMATION IS HERE!
+
+(curl -X POST https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings \
+  --header 'Authorization: Bearer ' \
+  --header 'Content-Type: application/json' \
+  --data '{"path":"/~'$Names'/'$M4A'"}' > /dev/null);
+
+## Prior to grabbing the shared link, I'm going create_shared_link_with_settings to be safe.
+
+TEMPMFL=$(curl -X POST https://api.dropboxapi.com/2/sharing/get_shared_links \
+  --header 'Authorization: Bearer ' \
+  --header 'Content-Type: application/json' \
+  --data '{"path":"/~'$Names'/'$M4A'"}' | jq -r .links[].url);
+  
+# file type audio/mp4a-latm auto added at generation.
 MFL=$(echo "$TEMPMFL" | sed s/https.*com// | sed s/?.*//);
 
 # Episode Information:
